@@ -3,34 +3,46 @@ let globalTaskData = [];
 
 const generateHTML = (taskData) => {
   return (
-    `<div id=${taskData.id} class="col-md-6 col-lg-4 my-4">
-          <div class="card">
-            <div class="card-header d-flex justify-content-end gap-2">
-              <button class="btn btn-outline-info">
-                <i class="fas fa-pencil-alt"></i>
-              </button>
-              <button class="btn btn-outline-danger" name=${taskData.id} onclick="deleteCard.apply(this, arguments)">
-                <i class="far fa-trash-alt" name=${taskData.id}></i>
-              </button>
-            </div>
-            <div class="card-body">
-              <img
-                src="./Lib/Card-img.jfif"
-                alt="Task-Image"
-                class="card-img"
-              />
-              <h5 class="card-title mt-4">${taskData.title}</h5>
-              <p class="card-text">
-                ${taskData.description}
-              </p>
-              <span class="badge bg-primary">${taskData.type}</span>
-            </div>
-            <div class="card-footer">
-              <button class="btn btn-outline-primary">Open Task</button>
-            </div>
-          </div>
-        </div>`);
+    `<div id="${taskData.id}" class="col-md-6 col-lg-4 my-4">
+    <div class="card">
+      <div class="card-header d-flex justify-content-end gap-2">
+        <button
+          class="btn btn-outline-info"
+          name="${taskData.id}"
+          onclick="editCard.apply(this, arguments)"
+        >
+          <i class="fas fa-pencil-alt" name="${taskData.id}"></i>
+        </button>
+        <button
+          class="btn btn-outline-danger"
+          name="${taskData.id}"
+          onclick="deleteCard.apply(this, arguments)"
+        >
+          <i class="far fa-trash-alt" name="${taskData.id}"></i>
+        </button>
+      </div>
+      <div class="card-body">
+        <img src="./Lib/Card-img.jfif" alt="Task-Image" class="card-img" />
+        <h5 class="card-title mt-4">${taskData.title}</h5>
+        <p class="card-text">${taskData.description}</p>
+        <span class="badge bg-primary">${taskData.type}</span>
+      </div>
+      <div class="card-footer">
+        <button
+          class="btn btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#cardModal"
+          name="${taskData.id}"
+        >
+          Open Task
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`);
 };
+
+
 
 const insertToDOM = (content) => {
   taskContainer.insertAdjacentHTML("beforeend", content);
@@ -41,6 +53,7 @@ const saveToLocalStorage = () => {
     localStorage.setItem("taskyVJ", JSON.stringify({ cards: globalTaskData }))
   );
 };
+
 // Adding new card
 
 const addNewCard = () => {
@@ -60,7 +73,9 @@ const addNewCard = () => {
 
   const newCard = generateHTML(taskData);
 
+
   insertToDOM(newCard);
+
 
   // Clear the form
 
@@ -71,6 +86,7 @@ const addNewCard = () => {
   return;
 };
 
+// Load Card
 
 const loadExistingCards = () => {
 
@@ -118,4 +134,78 @@ const deleteCard = (event) => {
   };
 };
 
-// Add Edit function
+// Edit card
+
+const editCard = (event) => {
+  const elementType = event.target.tagName;
+
+  let taskTitle;
+  let taskType;
+  let taskDescription;
+  let parentElement;
+  let submitButton;
+
+  if (elementType === "BUTTON") {
+    parentElement = event.target.parentNode.parentNode;
+  } else {
+    parentElement = event.target.parentNode.parentNode.parentNode;
+  };
+
+  taskTitle = parentElement.childNodes[3].childNodes[3];
+  taskDescription = parentElement.childNodes[3].childNodes[5];
+  taskType = parentElement.childNodes[3].childNodes[7];
+  submitButton = parentElement.childNodes[5].childNodes[1];
+
+  // contenteditable - Attribute
+
+  taskTitle.setAttribute("contenteditable", "true");
+  taskDescription.setAttribute("contenteditable", "true");
+  taskType.setAttribute("contenteditable", "true");
+  submitButton.setAttribute("onclick", "saveEdit.apply(this, arguments)");
+  submitButton.innerHTML = "Save Changes";
+};
+
+// Save Edits 
+
+const saveEdit = (event) => {
+  const targetID = event.target.getAttribute("name");
+  const elementType = event.target.tagName;
+
+  let parentElement;
+
+
+  if (elementType === "BUTTON") {
+    parentElement = event.target.parentNode.parentNode;
+  } else {
+    parentElement = event.target.parentNode.parentNode.parentNode;
+  };
+
+  const taskTitle = parentElement.childNodes[3].childNodes[3];
+  const taskDescription = parentElement.childNodes[3].childNodes[5];
+  const taskType = parentElement.childNodes[3].childNodes[7];
+  const submitButton = parentElement.childNodes[5].childNodes[1];
+
+  const updatedData = {
+    title: taskTitle.innerHTML,
+    type: taskType.innerHTML,
+    description: taskDescription.innerHTML,
+  };
+
+  const saveTask = globalTaskData.map((task) => {
+    if (task.id === targetID) {
+      return { ...task, ...updatedData };
+    } else {
+      return task;
+    };
+  });
+
+  globalTaskData = saveTask;
+
+  saveToLocalStorage();
+
+  taskTitle.setAttribute("contenteditable", "false");
+  taskDescription.setAttribute("contenteditable", "false");
+  taskType.setAttribute("contenteditable", "false");
+  submitButton.innerHTML = "Open Task";
+
+};
