@@ -126,7 +126,7 @@
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
         <div class="container-fluid">
-          <a class="navbar-brand fw-bold text-primary" href="#"
+          <a class="navbar-brand fw-bold text-primary" href="index.html"
             ><i class="fab fa-tumblr"></i>askY</a
           >
           <button
@@ -143,7 +143,9 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="index.html"
+                  >Home</a
+                >
               </li>
             </ul>
             <button
@@ -169,6 +171,7 @@
               placeholder="Search Task"
               aria-label="Search Task"
               aria-describedby="basic-addon1"
+              onchange="searchTask.apply(this, arguments)"
             />
             <span class="input-group-text" id="basic-addon1"
               ><i class="fas fa-search"></i

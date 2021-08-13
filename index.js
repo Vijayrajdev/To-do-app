@@ -233,8 +233,24 @@ const saveEdit = (event) => {
 
 };
 
+// Open Task
+
 const openTask = (event) => {
   const targetID = event.target.getAttribute("name");
   const getTask = globalTaskData.filter(({ id }) => id === targetID);
   modalContainer.innerHTML = generateModal(getTask[0]);
 };
+
+// Search Task
+
+const searchTask = (event) => {
+  while (taskContainer.firstChild) {
+    taskContainer.removeChild(taskContainer.firstChild);
+  }
+  const resultData = globalTaskData.filter(({ title }) => title.includes(event.target.value));
+
+  resultData.map((taskData) => {
+    taskContainer.insertAdjacentHTML("beforeend", generateHTML(taskData));
+  });
+};
+
