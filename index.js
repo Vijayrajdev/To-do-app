@@ -1,4 +1,6 @@
 const taskContainer = document.querySelector('.task-container');
+const modalContainer = document.querySelector('.modal__body');
+
 let globalTaskData = [];
 
 const generateHTML = (taskData) => {
@@ -32,6 +34,7 @@ const generateHTML = (taskData) => {
           class="btn btn-outline-primary"
           data-bs-toggle="modal"
           data-bs-target="#cardModal"
+          onclick="openTask.apply(this, arguments)"
           name="${taskData.id}"
         >
           Open Task
@@ -42,7 +45,22 @@ const generateHTML = (taskData) => {
 </div>`);
 };
 
-
+const generateModal = (taskData) => {
+  const date = new Date(parseInt(taskData.id));
+  return (
+    `<div id="${taskData.id}">
+  <img
+    src="./Lib/Card-img.jfif"
+    alt="modal-image"
+    class="card-img mb-3"
+  />
+  <strong class="text-secondary">Created on ${date.toDateString()}</strong>
+  <h2 class="my-3">${taskData.title}</h2>
+  <p class="lead">${taskData.description}</p>
+</div>
+`
+  );
+};
 
 const insertToDOM = (content) => {
   taskContainer.insertAdjacentHTML("beforeend", content);
@@ -162,6 +180,8 @@ const editCard = (event) => {
   taskDescription.setAttribute("contenteditable", "true");
   taskType.setAttribute("contenteditable", "true");
   submitButton.setAttribute("onclick", "saveEdit.apply(this, arguments)");
+  submitButton.removeAttribute("data-bs-toggle");
+  submitButton.removeAttribute("data-bs-target");
   submitButton.innerHTML = "Save Changes";
 };
 
@@ -206,6 +226,15 @@ const saveEdit = (event) => {
   taskTitle.setAttribute("contenteditable", "false");
   taskDescription.setAttribute("contenteditable", "false");
   taskType.setAttribute("contenteditable", "false");
+  submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
+  submitButton.setAttribute("data-bs-toggle", "modal");
+  submitButton.setAttribute("data-bs-target", "#cardModal");
   submitButton.innerHTML = "Open Task";
 
+};
+
+const openTask = (event) => {
+  const targetID = event.target.getAttribute("name");
+  const getTask = globalTaskData.filter(({ id }) => id === targetID);
+  modalContainer.innerHTML = generateModal(getTask[0]);
 };
