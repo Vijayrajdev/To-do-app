@@ -1,0 +1,23 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.card_task {
+  cursor: pointer;
+}
+
+.card_task:hover {
+  border: 1px solid #4582ec;
+}
+.card_task:hover .card_task_header {
+  border-bottom: 0.5px solid #4582ec;
+}
+
+.card_task:hover .card_task_footer {
+  border-top: 1px solid #4582ec;
+}
+
+.card_task:hover .card_task_title {
+  color: #4582ec;
+}

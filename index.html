@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Css -->
+
+    <link rel="stylesheet" href="style.css" />
+
     <!-- Bootstrap CSS -->
 
     <link
@@ -143,7 +147,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html"
+                <a
+                  class="nav-link active text-secondary"
+                  aria-current="page"
+                  href="index.html"
                   >Home</a
                 >
               </li>
@@ -182,9 +189,28 @@
 
       <!-- Task Container -->
 
-      <section class="task-container row"></section>
+      <section class="task-container row min-vh-100"></section>
     </main>
-
+    <footer
+      class="
+        d-flex
+        flex-wrap
+        justify-content-between
+        align-items-center
+        py-3
+        px-3
+        border-top
+        bg-light
+        shadow-lg
+      "
+    >
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="text-muted">&copy; 2021 Tasky, Inc</span>
+      </div>
+      <div class="col-md-4 d-flex align-items-center justify-content-end">
+        <span class="text-muted"> Made By Vijaydev__❤</span>
+      </div>
+    </footer>
     <!-- JavaScript Bundle with Popper -->
 
     <script

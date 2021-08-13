@@ -6,8 +6,8 @@ let globalTaskData = [];
 const generateHTML = (taskData) => {
   return (
     `<div id="${taskData.id}" class="col-md-6 col-lg-4 my-4">
-    <div class="card">
-      <div class="card-header d-flex justify-content-end gap-2">
+    <div class="card card_task shadow-sm">
+      <div class="card-header d-flex justify-content-end gap-2 card_task_header">
         <button
           class="btn btn-outline-info"
           name="${taskData.id}"
@@ -25,11 +25,11 @@ const generateHTML = (taskData) => {
       </div>
       <div class="card-body">
         <img src="./Lib/Card-img.jfif" alt="Task-Image" class="card-img" />
-        <h5 class="card-title mt-4">${taskData.title}</h5>
+        <h5 class="card-title mt-4 card_task_title">${taskData.title}</h5>
         <p class="card-text">${taskData.description}</p>
         <span class="badge bg-primary">${taskData.type}</span>
       </div>
-      <div class="card-footer">
+      <div class="card-footer card_task_footer">
         <button
           class="btn btn-outline-primary"
           data-bs-toggle="modal"
